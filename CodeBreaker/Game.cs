@@ -48,6 +48,30 @@ namespace Breaker
             if (goRight == true && player.Left < 700) {
                 player.Left += playerSpeed;
             }
+
+            ball.Left += ballx;
+            ball.Top += bally;
+
+            if (ball.Left < 0 || ball.Left > 775)
+            {
+                ballx = -ballx;
+            }
+            if  (ball.Top < 0)
+            {
+                bally = -bally;
+            }
+
+            if (ballx.Bounds.IntersectsWith(player.Bounds))
+            {
+                bally = random.Next(5, 12) * -1;
+
+                if (ballx < 0) 
+                {
+                    ballx = random.Next(5, 12) * -1;
+                } else {
+                    ballx = random.Next(5, 12);
+                }
+            }
         }
 
         public void keyIsDown(object sender, EventArgs e)
