@@ -41,7 +41,13 @@ namespace Breaker
 
         public void gameTimerEvent(object sender, EventArgs e)
         {
-
+            if (goLeft == true && player.Left > 0)
+            {
+                player.Left -= playerSpeed;
+            }
+            if (goRight == true && player.Left < 700) {
+                player.Left += playerSpeed;
+            }
         }
 
         public void keyIsDown(object sender, EventArgs e)
