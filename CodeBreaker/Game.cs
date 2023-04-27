@@ -39,8 +39,18 @@ namespace Breaker
             }
         }
 
+        private void gameOver(string message)
+        {
+            isGameOver = true;
+            gameTimer.Stop();
+
+            txtScore.Text = "Score: " + score + " " + message;
+        }
+
         public void gameTimerEvent(object sender, EventArgs e)
         {
+            txtScore.Text = "Score: " + score;
+
             if (goLeft == true && player.Left > 0)
             {
                 player.Left -= playerSpeed;
@@ -86,6 +96,16 @@ namespace Breaker
                         this.Controls.Remove(x);
                     }
                 }
+            }
+
+            if (score == 15)
+            {
+                gameOver("Youd Win!!");
+            }
+
+            if (ball.Top > 500)
+            {
+                gameOver("You Lose!!");
             }
         }
 
