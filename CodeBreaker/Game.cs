@@ -72,6 +72,21 @@ namespace Breaker
                     ballx = random.Next(5, 12);
                 }
             }
+
+            foreach (Control x in this.Controls)
+            {
+                if (x is Box && (string)x.Tag == "blocks")
+                {
+                    if ( ball.Bounds.IntersectsWith(x.Bounds))
+                    {
+                        score =+ 1;
+
+                        bally = -bally;
+
+                        this.Controls.Remove(x);
+                    }
+                }
+            }
         }
 
         public void keyIsDown(object sender, EventArgs e)
