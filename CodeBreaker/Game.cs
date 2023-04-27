@@ -29,6 +29,14 @@ namespace Breaker
             txtScore.Text = "Score: " + score;
 
             gameTimer.Start();
+
+            foreach (Control x in this.Controls)
+            {
+                if (x is Box && (string)x.Tag == "blocks")
+                {
+                    x.BackColor = Color.FromArgb(50, 50, 50);
+                }
+            }
         }
 
         public void gameTimerEvent(object sender, EventArgs e)
