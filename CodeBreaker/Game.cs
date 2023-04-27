@@ -21,10 +21,13 @@ namespace Breaker
         public Game()
         {
             InitializeComponent();
+
+            CreateBox();
         }
 
         public void gameSetup()
         {
+            isGameOver = false;
             score = 0;
             ballx = 5;
             bally = 5;
@@ -77,9 +80,24 @@ namespace Breaker
                 if (a < 5)
                 {
                     a++;
+                    blockArray[i].Left = left;
+                    blockArray[i].Top = top;
+                    this.Controls.Add(blockArray[i]);
+                    left = left + 130;
                 }
             }
+
+            gameSetup();
         }
+
+        private void restartGame()
+        {
+            foreach (Box x in blockArray)
+            {
+                this.Controls.Remove(x);
+            }
+        }
+        
 
         public void gameTimerEvent(object sender, EventArgs e)
         {
@@ -134,12 +152,12 @@ namespace Breaker
 
             if (score == 15)
             {
-                gameOver("Youd Win!!");
+                gameOver("Youd Win!! Press Enter to Play Again!!");
             }
 
             if (ball.Top > 500)
             {
-                gameOver("You Lose!!");
+                gameOver("You Lose!! Press Enter to Play Again!!");
             }
         }
 
@@ -165,6 +183,12 @@ namespace Breaker
             if (e.KeyCode == Keys.Right)
             {
                 goRight = false;
+            }
+
+            if (e.Keycode == Keys.Enter && isGameOver == true)
+            {
+                restartGame();
+                CreateBox();
             }
         }
     }
