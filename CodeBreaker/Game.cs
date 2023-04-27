@@ -34,7 +34,7 @@ namespace Breaker
             {
                 if (x is Box && (string)x.Tag == "blocks")
                 {
-                    x.BackColor = Color.FromArgb(50, 50, 50);
+                    x.BackColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
                 }
             }
         }
