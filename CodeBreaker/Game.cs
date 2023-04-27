@@ -15,6 +15,9 @@ namespace Breaker
         int playerSpeed;
 
         Random random = new Random();
+
+        Box[] blockArray;
+
         public Game()
         {
             InitializeComponent();
@@ -45,6 +48,37 @@ namespace Breaker
             gameTimer.Stop();
 
             txtScore.Text = "Score: " + score + " " + message;
+        }
+
+        private void CreateBox()
+        {
+            blockArray = new Box[15];
+
+            int a = 0;
+
+            int top = 50;
+            int left = 100;
+
+            for (int i = 0; i < blockArray.Length; i++)
+            {
+                blockArray[i] = new Box();
+                blockArray[i].Height = 32;
+                blockArray[i].Width = 100;
+                blockArray[i].Tag = "blocks";
+                blockArray[i].BackColor = Color.White;
+
+                if (a == 5)
+                {
+                    top = top + 50;
+                    left = 100;
+                    a = 0;
+                }
+
+                if (a < 5)
+                {
+                    a++;
+                }
+            }
         }
 
         public void gameTimerEvent(object sender, EventArgs e)
