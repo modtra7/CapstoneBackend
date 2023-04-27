@@ -46,12 +46,27 @@ namespace Breaker
 
         public void keyIsDown(object sender, EventArgs e)
         {
+            if (e.KeyCode == Keys.Left)
+            {
+                goLeft = true;
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                goRight = true;
+            }
 
         }
 
         public void KeyIsUp(object sender, EventArgs e)
         {
-
+            if (e.KeyCode == Keys.Left)
+            {
+                goLeft = false;
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                goRight = false;
+            }
         }
     }
 }
