@@ -1,9 +1,19 @@
 using System;
+using Breaker;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Breaker 
 {
     public class Game
     {
+        private PictureBox ball;
+        private PictureBox player;
+        private Label txtScore;
+        private Timer gameTimer;
 
         bool goLeft;
         bool goRight;
@@ -16,13 +26,68 @@ namespace Breaker
 
         Random random = new Random();
 
-        Box[] blockArray;
+        PictureBox[] blockArray;
 
         public Game()
         {
             InitializeComponent();
 
             CreateBox();
+        }
+
+        private void InitializeComponent()
+        {
+            this.ball = new System.Windows.Forms.PictureBox();
+            this.player = new System.Windows.Forms.PictureBox();
+            this.txtScore = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // ball
+            // 
+            this.ball.BackColor = System.Drawing.Color.Red;
+            this.ball.Location = new System.Drawing.Point(376, 328);
+            this.ball.Name = "ball";
+            this.ball.Size = new System.Drawing.Size(20, 20);
+            this.ball.TabIndex = 0;
+            this.ball.TabStop = false;
+            // 
+            // player
+            // 
+            this.player.BackColor = System.Drawing.Color.Black;
+            this.player.Location = new System.Drawing.Point(347, 454);
+            this.player.Name = "player";
+            this.player.Size = new System.Drawing.Size(100, 20);
+            this.player.TabIndex = 1;
+            this.player.TabStop = false;
+            // 
+            // txtScore
+            // 
+            this.txtScore.AutoSize = true;
+            this.txtScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtScore.Location = new System.Drawing.Point(12, 9);
+            this.txtScore.Name = "txtScore";
+            this.txtScore.Size = new System.Drawing.Size(64, 20);
+            this.txtScore.TabIndex = 2;
+            this.txtScore.Text = "Score: 0";
+            // 
+            // Game
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.txtScore);
+            this.Controls.Add(this.player);
+            this.Controls.Add(this.ball);
+            this.Name = "Game";
+            this.Text = "Code Breaker";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyIsDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.KeyIsUp);
+            ((System.ComponentModel.ISupportInitialize)(this.ball)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.player)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         public void gameSetup()
@@ -34,11 +99,16 @@ namespace Breaker
             playerSpeed = 12;
             txtScore.Text = "Score: " + score;
 
+            ball.Left = 376;
+            ball.Top = 328;
+
+            player.Left = 347;
+
             gameTimer.Start();
 
             foreach (Control x in this.Controls)
             {
-                if (x is Box && (string)x.Tag == "blocks")
+                if (x is PictureBox && (string)x.Tag == "blocks")
                 {
                     x.BackColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
                 }
@@ -55,7 +125,7 @@ namespace Breaker
 
         private void CreateBox()
         {
-            blockArray = new Box[15];
+            blockArray = new PictureBox[15];
 
             int a = 0;
 
@@ -64,7 +134,7 @@ namespace Breaker
 
             for (int i = 0; i < blockArray.Length; i++)
             {
-                blockArray[i] = new Box();
+                blockArray[i] = new PictureBox();
                 blockArray[i].Height = 32;
                 blockArray[i].Width = 100;
                 blockArray[i].Tag = "blocks";
@@ -92,7 +162,7 @@ namespace Breaker
 
         private void restartGame()
         {
-            foreach (Box x in blockArray)
+            foreach (PictureBox x in blockArray)
             {
                 this.Controls.Remove(x);
             }
@@ -123,8 +193,10 @@ namespace Breaker
                 bally = -bally;
             }
 
-            if (ballx.Bounds.IntersectsWith(player.Bounds))
+            if (ball.Bounds.IntersectsWith(player.Bounds))
             {
+                ball.Top = 463;
+
                 bally = random.Next(5, 12) * -1;
 
                 if (ballx < 0) 
@@ -137,7 +209,7 @@ namespace Breaker
 
             foreach (Control x in this.Controls)
             {
-                if (x is Box && (string)x.Tag == "blocks")
+                if (x is PictureBox && (string)x.Tag == "blocks")
                 {
                     if ( ball.Bounds.IntersectsWith(x.Bounds))
                     {
@@ -152,7 +224,7 @@ namespace Breaker
 
             if (score == 15)
             {
-                gameOver("Youd Win!! Press Enter to Play Again!!");
+                gameOver("You Win!! Press Enter to Play Again!!");
             }
 
             if (ball.Top > 500)
@@ -185,7 +257,7 @@ namespace Breaker
                 goRight = false;
             }
 
-            if (e.Keycode == Keys.Enter && isGameOver == true)
+            if (e.KeyCode == Keys.Enter && isGameOver == true)
             {
                 restartGame();
                 CreateBox();

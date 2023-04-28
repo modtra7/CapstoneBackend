@@ -1,4 +1,10 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Breaker;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -24,5 +30,9 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html");
 
-app.Run();
+var game = new Game();
 
+app.Run(async context =>
+{
+    await game.Run();
+});
