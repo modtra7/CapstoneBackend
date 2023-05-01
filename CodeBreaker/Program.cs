@@ -32,7 +32,4 @@ app.MapFallbackToFile("index.html");
 
 var game = new Game();
 
-app.Run(async context =>
-{
-    await game.Run();
-});
+app.Run();

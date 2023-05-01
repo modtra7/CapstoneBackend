@@ -17,3 +17,8 @@ code {
   border-color: #1861ac;
 }
 
+#canvas {
+  background-color: rgb(6, 6, 58);
+  width: 500px;
+  height: 400px;
+}

@@ -18,9 +18,10 @@ namespace App_api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] string guess)
+        public IActionResult ProcessGuess([FromBody] string guess)
         {
-            return Ok("Guess reveived: " + guess);
+            string response = "Guess reveived: " + guess;
+            return Ok(response);
         }
     }
 }
